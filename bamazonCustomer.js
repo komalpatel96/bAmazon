@@ -21,40 +21,42 @@ connection.connect(function(err) {
   // userPurchase();
 });
 
-function userPurchase() {
-  // console.log("USER INPUT: ");
+var counter = 0;
 
+var userPurchase = function() {
+  // console.log("USER INPUT: ");
   // Prompt the user to select an product
+  if (counter < 2) {
+      debugger;
+
   inquirer.prompt([
     {
+      message: 'What is the product ID which you would like to purchase?',
       type: 'input',
       name: 'id',
-      message: 'What is the product ID which you would like to purchase?',
       filter: Number
-    },
-    {
+    },  {
+      message: 'How many products would you like to purchase?',
       type: 'input',
       name: 'quantity',
-      message: 'How many products would you like to purchase?',
       filter: Number
     }
-  ]).then(function(answer) {
+  ]).then(function(answers) {
     // console.log('Customer has selected: \n    id = '  + input.id + '\n    quantity = ' + input.quantity);
+    var product = answers.id;
+    var quantity = answers.quantity;
+    
+    counter++
+    
 
-    var product = answer.id;
-    var quantity = answer.quantity;
-
-    // Query db to confirm that the given product ID exists in the desired quantity
-    var queryURL = 'SELECT * FROM products WHERE ?';
-
-    connection.query(queryURL, {id: product}, function(err, data) {
+    connection.query('SELECT * FROM products WHERE ?', {id: product}, function(err, data) {
       if (err) throw err;
       //if selects product id 0
       if (data.length === 0) {
         console.log('YOU HAVE ENTERED AN INVALID ID. Please select a valid product ID.');
         displayInventory();
-
-      } else {
+      } 
+      else {
         var productInfo = data[0];
 
         // console.log('productInfo = ' + JSON.stringify(productInfo));
@@ -69,12 +71,13 @@ function userPurchase() {
           connection.query(newQueryURL, function(err, data) {
             if (err) throw err;
 
-            console.log('Your oder has been placed! Your total is $' + productInfo.price * quantity);
+            console.log('Your order has been placed! Your total is $' + productInfo.price * quantity);
             console.log('Thank you for shopping with us!');
             console.log("\n---------------------------------------------------------------------\n");
 
             // End the database connection
           })
+
         } else {
           console.log('Sorry, there is not enough product in stock, your order can not be placed as is.');
           console.log('Please modify your order.');
@@ -86,19 +89,15 @@ function userPurchase() {
     })
   })
 }
+}
 
 // displayInventory will retrieve the current inventory from the database and output it to the console
 function displayInventory() {
-  // console.log('___ENTER displayInventory___');
 
-  // Construct the db query string
-  QueryURL = 'SELECT * FROM products';
-
-  // Make the db query
-  connection.query(QueryURL, function(err, data) {
+  connection.query('SELECT * FROM products', function(err, data) {
     if (err) throw err;
 
-    console.log('\n Existing Inventory:\n...............................................');
+    console.log('\n Existing Inventory:\n.................................');
 
 
     var infoDiv = '';
@@ -112,7 +111,7 @@ function displayInventory() {
       console.log(infoDiv);
     }
 
-      console.log("---------------------------------------------------------------------\n");
+      console.log("----------------------------------------\n");
 
       //Prompt the user for product/quantity they would like to purchase
       userPurchase();
@@ -120,13 +119,4 @@ function displayInventory() {
   })
 }
 
-// runBamazon will execute the main application logic
-function runBamazon() {
-  // console.log('___ENTER runBamazon___');
-
-  // Display the available inventory
-  displayInventory();
-}
-
-// Run the application logic
-runBamazon();
+displayInventory();

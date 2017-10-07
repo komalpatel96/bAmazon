@@ -11,7 +11,7 @@ CREATE table products(
 	price DECIMAL(10,2) NOT NULL,
 	stock_quantity INTEGER NOT NULL,
 	PRIMARY KEY(id)
-)
+);
 
 INSERT INTO products (product_name, department_name, price, stock_quantity)
 VALUES ("Apple Watch Band", "Cell Phones & Accessories", 12.99, 100);

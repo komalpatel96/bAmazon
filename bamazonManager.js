@@ -52,7 +52,7 @@ viewProductsForSale = function(){
   connection.query('SELECT * FROM products', function(err, data) {
     if (err) throw err;
 
-    console.log('\n Existing Inventory:\n.................................');
+    console.log('Existing Inventory:\n.................................');
 
 
     var infoDiv = '';
@@ -61,12 +61,12 @@ viewProductsForSale = function(){
       infoDiv += 'Product ID: ' + data[i].id + '  ||  ';
       infoDiv += 'Product Name: ' + data[i].product_name + '  ||  ';
       infoDiv += 'Department: ' + data[i].department_name + '  ||  ';
-      infoDiv += 'Price: $' + data[i].price + '\n';
+      infoDiv += 'Price: $' + data[i].price ;
 //double quotes do not work
       console.log(infoDiv);
     }
+      connection.end();
 
-      console.log("----------------------------------------\n");
   })
 }
 
@@ -75,6 +75,8 @@ viewLowInventory = function(){
   connection.query('SELECT * FROM products WHERE stock_quantity <= 50', function(err, answer){
     console.log('');
     console.log('Items With Low Inventory');
+    console.log("----------------------------------------\n");
+
 
     var lowQuantity = '';
     for( var i = 0; i < answer.length; i++){
@@ -87,7 +89,6 @@ viewLowInventory = function(){
       
       console.log(lowQuantity);
     }
-      console.log("----------------------------------------\n");
       connection.end();
 
   })
@@ -128,7 +129,21 @@ addToInventory = function(){
             ], 
             function(err, res) {
               if (err) throw err;
-              console.log("Your product was added successfully!");
+
+              var newInventory = '';
+                  for (var i = 0; i < response.length; i++) {
+                    newInventory = '';
+                    newInventory += 'Product ID: ' + response[i].id + '\n';
+                    newInventory += 'Product Name: ' + response[i].product_name + '\n';
+                    newInventory += 'Department: ' + response[i].department_name + '\n';
+                    newInventory += 'Price: $' + response[i].price + '\n';
+                    newInventory += 'Stock Quantity: ' + response[i].stock_quantity;
+                  }
+
+              console.log('\n'+ "Your product was added to the inventory!");
+              console.log("-----------------------------------------");
+              console.log(newInventory);
+
             connection.end();
 
             });

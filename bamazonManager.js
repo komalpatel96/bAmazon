@@ -124,7 +124,7 @@ addToInventory = function(){
                 stock_quantity: newtotal
               },
               {
-                id : answer.id
+                id : answer.id 
               }
             ], 
             function(err, res) {

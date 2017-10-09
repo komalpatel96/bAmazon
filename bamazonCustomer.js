@@ -42,11 +42,11 @@ var userPurchase = function() {
       filter: Number
     }
   ]).then(function(answers) {
-    // console.log('Customer has selected: \n    id = '  + input.id + '\n    quantity = ' + input.quantity);
+    
     var product = answers.id;
     var quantity = answers.quantity;
     
-    counter++
+    counter++;
     
 
     connection.query('SELECT * FROM products WHERE ?', {id: product}, function(err, data) {
@@ -61,7 +61,7 @@ var userPurchase = function() {
 
         // console.log('productInfo = ' + JSON.stringify(productInfo));
         if (quantity <= productInfo.stock_quantity) {
-          console.log('Congratulations, the product you selected is in stock and your order has been placed');
+          console.log('Congratulations, the product you selected is in stock and your order has been placed!');
 
           var newQueryURL = 'UPDATE products SET stock_quantity = ' 
           + (productInfo.stock_quantity - quantity) + ' WHERE id = ' + product;
@@ -71,7 +71,7 @@ var userPurchase = function() {
           connection.query(newQueryURL, function(err, data) {
             if (err) throw err;
 
-            console.log('Your order has been placed! Your total is $' + productInfo.price * quantity);
+            console.log('Your order has been placed! Your total is $' + productInfo.price * quantity + "!");
             console.log('Thank you for shopping with us!');
             console.log("\n---------------------------------------------------------------------\n");
 

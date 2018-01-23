@@ -26,7 +26,7 @@ function start() {
   inquirer
     .prompt({
       type: "list",
-      message: "What would you like to do?",
+      message: "Welcome to the Bamazon Marketplace - Manager's Page. \n What would you like to do?",
       choices: ["View Products for Sale", "View Low Inventory", "Add to Inventory", "Add New Product" ],
       name: "options"
     })
@@ -137,7 +137,7 @@ addToInventory = function(){
                     newInventory += 'Product Name: ' + response[i].product_name + '\n';
                     newInventory += 'Department: ' + response[i].department_name + '\n';
                     newInventory += 'Price: $' + response[i].price + '\n';
-                    newInventory += 'Stock Quantity: ' + response[i].stock_quantity;
+                    newInventory += 'Stock Quantity: ' + response[i].stock_quantity + 10;
                   }
 
               console.log('\n'+ "Your product was added to the inventory!");

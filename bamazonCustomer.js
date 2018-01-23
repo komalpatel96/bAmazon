@@ -73,15 +73,15 @@ var userPurchase = function() {
 
             console.log('Your order has been placed! Your total is $' + productInfo.price * quantity + "!");
             console.log('Thank you for shopping with us!');
-            console.log("\n---------------------------------------------------------------------\n");
+            console.log("\n---------------------------------------------------------------------     \n");
 
             // End the database connection
           })
 
         } else {
-          console.log('Sorry, there is not enough product in stock, your order can not be placed as is.');
-          console.log('Please modify your order.');
-          console.log("\n---------------------------------------------------------------------\n");
+          console.log("\n---------------------------------------------------------------------     \n");
+          console.log('       Sorry, there is not enough product in stock, your order can not be placed as is.');
+          console.log('       Please modify your order. Choose a smaller quantity or choose another item');
 
           displayInventory();
         }
@@ -97,7 +97,7 @@ function displayInventory() {
   connection.query('SELECT * FROM products', function(err, data) {
     if (err) throw err;
 
-    console.log('\n Existing Inventory:\n.................................');
+    console.log('\n Existing Inventory:\n---------------------------------------------------------------------     \n');
 
 
     var infoDiv = '';
@@ -111,7 +111,7 @@ function displayInventory() {
       console.log(infoDiv);
     }
 
-      console.log("----------------------------------------\n");
+      console.log("\n---------------------------------------------------------------------     \n");
 
       //Prompt the user for product/quantity they would like to purchase
       userPurchase();
